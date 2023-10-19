@@ -1,6 +1,7 @@
 import 'package:cots_web_admin/pages/customers/Customers.dart';
 import 'package:cots_web_admin/pages/orders/Orders.dart';
 import 'package:cots_web_admin/pages/products/Products.dart';
+import 'package:cots_web_admin/pages/statistical/Statistical.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -17,7 +18,8 @@ class _LeftNavState extends State<LeftNav> {
   final _pages = const [
     Orders(),
     Products(),
-    Customers()
+    Customers(),
+    Statistical()
   ];
 
   @override
@@ -38,6 +40,7 @@ class _LeftNavState extends State<LeftNav> {
                     _NavItem(label: 'Orders', icon: Iconsax.shopping_cart),
                     _NavItem(label: 'Product', icon: Iconsax.tag),
                     _NavItem(label: 'Customers', icon: Iconsax.profile_2user),
+                    _NavItem(label: 'Statistical', icon: Iconsax.trend_up),
                   ],
                   onChange: (index) {
                     setState(() {
