@@ -1,15 +1,26 @@
-// import 'package:cdio_web/api/BaseApi.dart';
-//
-// class PaymentService {
-//   static final shared = PaymentService();
-//   final _api = BaseApi.shared;
-//
-//   Future<BaseResponse> dang_ky(
-//       {required String name,
-//         required String email,
-//         required String password}) async {
-//     return _api.post(
-//         path: '/dang-ky',
-//         body: {"name": name, "email": email, "password": password});
-//   }
-// }
+import 'package:cots_web_admin/api/BaseApi.dart';
+
+class PaymentService {
+  static final shared = PaymentService();
+  final _api = BaseApi.shared;
+
+}
+
+class CreatePaymentResponse {
+  int? paymentId;
+  String? paymentUrl;
+
+  CreatePaymentResponse({this.paymentId, this.paymentUrl});
+
+  CreatePaymentResponse.fromJson(Map<String, dynamic> json) {
+    paymentId = json['paymentId'];
+    paymentUrl = json['paymentUrl'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['paymentId'] = paymentId;
+    data['paymentUrl'] = paymentUrl;
+    return data;
+  }
+}

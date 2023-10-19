@@ -40,12 +40,12 @@ class _CustomerDetailsState extends State<CustomerDetails> {
             ),
             const SizedBox(height: 25,),
             const OrderListTitle(),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (_, __) => const OrderListItem(),
-              ),
-            )
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: 1,
+            //     itemBuilder: (_, __) => const OrderListItem(),
+            //   ),
+            // )
           ],
         )
     );

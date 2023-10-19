@@ -1,13 +1,14 @@
 import 'dart:math';
 
+import 'package:cots_web_admin/api/model/Order.dart';
 import 'package:cots_web_admin/components/OrderSpaceFlex.dart';
 import 'package:cots_web_admin/components/OrderStatus.dart';
 import 'package:cots_web_admin/pages/orders/OrderDetails.dart';
 import 'package:flutter/material.dart';
 
 class OrderListItem extends StatefulWidget {
-  const OrderListItem({super.key});
-
+  const OrderListItem(this.order, {super.key});
+  final Order order;
   @override
   State<OrderListItem> createState() => _OrderListItemState();
 }
@@ -17,6 +18,7 @@ class _OrderListItemState extends State<OrderListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final order = widget.order;
     return MouseRegion(
       onEnter: (event) {
         setState(() {
@@ -42,13 +44,13 @@ class _OrderListItemState extends State<OrderListItem> {
               color: _isEnter ? Colors.grey.withOpacity(0.2) : null),
           child: OrderSpaceFlex(
             space1: _text(
-                '#${Random().nextInt(15)}'
+                '#${order.id}'
             ),
-            space2: _text('10 October 2023 08:10 am'),
-            space3: _text('igg.anhkiet1@gmail.com'),
+            space2: _text('${DateTime.parse(order.orderDate!).toLocal()}'),
+            space3: _text('${order.shipEmail}'),
             space4: _text('VnPay'),
             space5: OrderStatus.pending.view,
-            space6: _text('\$124.3'),
+            space6: _text('\$${order.totalPrice}'),
           ),
         ),
       ),

@@ -1,3 +1,5 @@
+import 'package:cots_web_admin/utils/local_storage_service.dart';
+
 class UserResponse {
   String? token;
   String? refreshToken;
@@ -48,7 +50,7 @@ class UserResponse {
 //   StorageObject fromJsonStorage(Map<String, dynamic> json);
 // }
 
-class User {
+class User with StorageObject {
   String? name;
   String? email;
   String? imageUrl;
@@ -67,5 +69,11 @@ class User {
     data['email'] = email;
     data['imageUrl'] = imageUrl;
     return data;
+  }
+
+  @override
+  StorageObject fromJsonStorage(Map<String, dynamic> json) {
+    // TODO: implement fromJsonStorage
+    return User.fromJson(json);
   }
 }

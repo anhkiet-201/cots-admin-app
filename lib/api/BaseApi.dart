@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:cots_web_admin/api/model/ErrorResponse.dart';
+import 'package:cots_web_admin/utils/local_storage_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class BaseApi {
   static final shared = BaseApi();
   final Map<String, String> _headers = {'Content-Type': 'application/json'};
-  static String? jwt;
+
   BaseApi();
 
   final String _baseUrl =
@@ -15,8 +16,9 @@ class BaseApi {
 
   Future<Map<String, dynamic>> get(
       {required String path, Map<String, dynamic>? params, Map<String, String>? header}) async {
+    final jwt = LocalStorageService.jwt;
     if (jwt != null) {
-      _headers.addEntries([MapEntry('Authorization', jwt!)]);
+      _headers.addEntries([MapEntry('Authorization', 'Bearer $jwt')]);
     }
     if(header != null) {
       _headers.addAll(header);
@@ -31,8 +33,9 @@ class BaseApi {
   }
 
   Future<Map<String, dynamic>> post({required String path, Object? body, Object? rawBody, Map<String, dynamic>? params, Map<String, String>? header}) async {
+    final jwt = LocalStorageService.jwt;
     if (jwt != null) {
-      _headers.addEntries([MapEntry('Authorization', jwt!)]);
+      _headers.addEntries([MapEntry('Authorization', 'Bearer $jwt')]);
     }
     if(header != null) {
       _headers.addAll(header);
@@ -47,8 +50,9 @@ class BaseApi {
   }
 
   Future<Map<String, dynamic>> put({required String path, Object? body, Object? rawBody, Map<String, dynamic>? params, Map<String, String>? header}) async {
+    final jwt = LocalStorageService.jwt;
     if (jwt != null) {
-      _headers.addEntries([MapEntry('Authorization', jwt!)]);
+      _headers.addEntries([MapEntry('Authorization', 'Bearer $jwt')]);
     }
     if(header != null) {
       _headers.addAll(header);
@@ -63,8 +67,9 @@ class BaseApi {
   }
 
   Future<Map<String, dynamic>> delete({required String path, Object? body, Object? rawBody, Map<String, dynamic>? params, Map<String, String>? header}) async {
+    final jwt = LocalStorageService.jwt;
     if (jwt != null) {
-      _headers.addEntries([MapEntry('Authorization', jwt!)]);
+      _headers.addEntries([MapEntry('Authorization', 'Bearer $jwt')]);
     }
     if(header != null) {
       _headers.addAll(header);
@@ -78,7 +83,13 @@ class BaseApi {
     return _utf8JsonDecode(response.bodyBytes);
   }
 
-  Map<String, dynamic> _utf8JsonDecode(Uint8List value) => jsonDecode(utf8.decode(value));
+  Map<String, dynamic> _utf8JsonDecode(Uint8List value) {
+    try {
+      return jsonDecode(utf8.decode(value));
+    } catch (e, s) {
+      return {};
+    }
+  }
 
   String _paramsConvert(Map<String, dynamic>? params) {
     final paramsList = <String>[];

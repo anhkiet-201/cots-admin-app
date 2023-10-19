@@ -1,3 +1,5 @@
+import 'package:cots_web_admin/api/model/Order.dart';
+import 'package:cots_web_admin/api/services/OrderService.dart';
 import 'package:cots_web_admin/components/OrderListItem.dart';
 import 'package:cots_web_admin/components/OrderListTitle.dart';
 import 'package:cots_web_admin/components/SearchBox.dart';
@@ -12,6 +14,11 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
+
+  Future<List<Order>> _fetch() async {
+    return await OrderService.shared.get_all();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseLayout(
@@ -32,9 +39,20 @@ class _OrdersState extends State<Orders> {
             const SizedBox(height: 10,),
             const OrderListTitle(),
             Expanded(
-              child: ListView.builder(
-                itemCount: 1,
-                itemBuilder: (_, __) => const OrderListItem(),
+              child: FutureBuilder(
+                future: _fetch(),
+                builder: (_, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final data = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (_, index) => OrderListItem(data[index]),
+                  );
+                },
               ),
             )
           ],
