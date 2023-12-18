@@ -48,7 +48,7 @@ class LoginProvider with ChangeNotifier {
       if (value == null) return;
       if ((JwtDecoder.tryDecode(LocalStorageService.jwt ?? '')?['role'] ??
               '') !=
-          'admin') {
+          'Admin') {
         context.showSnackBar('This account don\'t have permission!',
             type: SnackBarType.error);
         return;
